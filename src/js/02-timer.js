@@ -77,7 +77,6 @@ const options = {
     selectedDate = new Date(selectedDates[0]);
     updateTimer(selectedDate - new Date());
     startBtn.addEventListener('click', startTimer);
-
     startBtn.removeAttribute('disable');
   },
 };
