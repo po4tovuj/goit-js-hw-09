@@ -1,0 +1,30 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.timer {
+  display: flex;
+  gap: 20px;
+  font-size: 30px;
+}
+.flatpickr-input {
+  font-size: 20px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  margin-bottom: 16px;
+  max-width: 200px;
+}
+button {
+  height: 30px;
+  margin-bottom: 0;
+  border-radius: 5px;
+  max-width: 100px;
+  color: #000;
+  background-color: antiquewhite;
+  font-size: 16px;
+  cursor: pointer;
+  &:disabled {
+    cursor: default;
+  }
+}
