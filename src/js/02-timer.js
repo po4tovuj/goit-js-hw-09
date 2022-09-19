@@ -1,4 +1,5 @@
 import flatpickr from 'flatpickr';
+import { Notify } from 'notiflix';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const pickerInput = document.querySelector('#datetime-picker');
@@ -34,7 +35,7 @@ let timerId = null;
 const updateTimer = milliseconds => {
   const data = convertMs(milliseconds);
   Object.keys(data).forEach(item => {
-    elements[item].innerText = data[item];
+    elements[item].innerText = addLeadingZero(data[item]);
   });
 };
 const clearTimer = () => {
@@ -54,7 +55,9 @@ const startTimer = () => {
     }
   }, 1000);
 };
-
+function addLeadingZero(value) {
+  return value.toString().padStart(2, '0');
+}
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -63,6 +66,11 @@ const options = {
   onClose(selectedDates) {
     clearTimer();
     if (new Date(selectedDates[0]) < new Date()) {
+      Notify.failure('Please choose a date in the future', {
+        position: 'center-top',
+        fontSize: '20px',
+        width: '370px',
+      });
       return;
     }
 
