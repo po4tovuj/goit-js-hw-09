@@ -10,9 +10,9 @@ const changeBodyBgColor = () => {
   body.style.backgroundColor = color;
 };
 startBtn.addEventListener('click', () => {
+  startBtn.setAttribute('disabled', '');
   timerId = setInterval(() => {
     changeBodyBgColor();
-    startBtn.setAttribute('disabled', '');
   }, 1000);
 });
 

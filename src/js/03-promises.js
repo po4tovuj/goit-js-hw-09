@@ -40,7 +40,7 @@ function onSubmit(e) {
   let nextDelay = +delay;
   const promises = Array.from(Array(+amount)).map((item, i) => {
     nextDelay += i ? Number(step) : 0;
-    createPromise(i, nextDelay);
+    createPromise(i + 1, nextDelay);
   });
   Promise.allSettled(promises);
 }
