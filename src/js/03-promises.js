@@ -4,27 +4,15 @@ const form = document.querySelector('form');
 form.addEventListener('submit', onSubmit);
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
-  if (shouldResolve) {
-    return Promise.resolve().then(() => {
-      setTimeout(() => {
-        Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
-          position: 'center-top',
-          fontSize: '20px',
-          width: '370px',
-        });
-      }, delay);
-    });
-  } else {
-    return Promise.reject().catch(() => {
-      setTimeout(() => {
-        Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
-          position: 'center-top',
-          fontSize: '20px',
-          width: '370px',
-        });
-      }, delay);
-    });
-  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, delay);
+  });
 }
 
 function onSubmit(e) {
@@ -38,9 +26,24 @@ function onSubmit(e) {
   } = e.currentTarget;
 
   let nextDelay = +delay;
-  const promises = Array.from(Array(+amount)).map((item, i) => {
+
+  Array.from(Array(+amount)).forEach((item, i) => {
     nextDelay += i ? Number(step) : 0;
-    createPromise(i + 1, nextDelay);
+    createPromise(i + 1, nextDelay)
+      .then(({ position, delay }) => {
+        Notify.success(`Fulfilled promise ${position} in ${delay}ms`, {
+          position: 'center-top',
+          fontSize: '20px',
+          width: '370px',
+        });
+      })
+      .catch(({ position, delay }) => {
+        Notify.failure(`Rejected promise ${position} in ${delay}ms`, {
+          position: 'center-top',
+          fontSize: '20px',
+          width: '370px',
+        });
+      });
   });
   Promise.allSettled(promises);
 }
